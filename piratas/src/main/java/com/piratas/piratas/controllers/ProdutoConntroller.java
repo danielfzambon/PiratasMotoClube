@@ -28,11 +28,13 @@ public class ProdutoConntroller {
 	@GetMapping("/all")
 	public ResponseEntity<List<Produto>> getAllProducts(){
 		List<Produto> productsList = productRepository.findAll();
+		System.out.println(productsList.toString());
+		productsList.toString();
 		return ResponseEntity.status(HttpStatus.OK).body(productsList);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public Optional<Produto>  findById(@PathVariable Long id) {	
+	public Optional<Produto> findById(@PathVariable Long id) {	
 		Optional<Produto> product = productRepository.findById(id);	
 		return product;
 	}

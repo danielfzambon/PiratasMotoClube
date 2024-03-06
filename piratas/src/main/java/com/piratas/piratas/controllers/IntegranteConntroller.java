@@ -14,46 +14,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.piratas.piratas.entities.Comanda;
+import com.piratas.piratas.entities.Integrante;
 import com.piratas.piratas.entities.Produto;
 import com.piratas.piratas.repositories.ComandaRepository;
+import com.piratas.piratas.repositories.IntegrandeRepository;
 import com.piratas.piratas.repositories.ProdutoRepository;
-import com.piratas.piratas.services.ComandaService;
 
 @RestController
-@RequestMapping(value = "/comanda")
-public class ComandaConntroller {
+@RequestMapping(value = "/integrante")
+public class IntegranteConntroller {
 	
 	@Autowired
-	private ComandaRepository comandaRepository;
-	@Autowired
-	private ComandaService service;
+	private IntegrandeRepository repository;
 
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Comanda>> getAllProducts(){
-		List<Comanda> comandaList = comandaRepository.findAll();
+	public ResponseEntity<List<Integrante>> getAllProducts(){
+		List<Integrante> comandaList = repository.findAll();
 		return ResponseEntity.status(HttpStatus.OK).body(comandaList);
 	}
 	
+	@GetMapping(value = "/{id}")
+	public Optional<Integrante>  findById(@PathVariable Long id) {	
+		Optional<Integrante> product = repository.findById(id);	
+		return product;
+	}
+	
     @PutMapping("/insert")
-    public void insertComanda(@RequestBody Comanda data){
-    	
-    	data = service.venda(data);
-    	
-    	comandaRepository.save(data);        
+    public void insertComanda(@RequestBody Integrante data){
+    	repository.save(data);        
     }
     
     @PutMapping("/update")
-    public void updateComanda(@RequestBody Comanda data){
-    	comandaRepository.save(data);        
+    public void updateComanda(@RequestBody Integrante data){
+    	repository.save(data);        
     }
     
-	@PutMapping(value = "/add/{idComanda}/{idProduto}")
-	public void venda(@PathVariable Long idComanda ,@PathVariable Long idProduto) {	
-		Optional<Comanda> comandaOld = comandaRepository.findById(idComanda);				
-		comandaRepository.save(comandaOld.get());  
-
+	@GetMapping(value = "/delete/{id}")
+	public void  deleteById(@PathVariable Long id) {	
+		repository.deleteById(id);	
 	}
+    
+
 	
 
 }
