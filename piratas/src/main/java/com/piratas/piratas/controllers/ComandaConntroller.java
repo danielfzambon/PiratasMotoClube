@@ -8,15 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.piratas.piratas.dto.DatasDTO;
 import com.piratas.piratas.entities.Comanda;
-import com.piratas.piratas.entities.Produto;
+import com.piratas.piratas.entities.ComandaProduto;
+import com.piratas.piratas.repositories.ComandaProdutoRepository;
 import com.piratas.piratas.repositories.ComandaRepository;
-import com.piratas.piratas.repositories.ProdutoRepository;
 import com.piratas.piratas.services.ComandaService;
 
 @RestController
@@ -25,6 +27,8 @@ public class ComandaConntroller {
 	
 	@Autowired
 	private ComandaRepository comandaRepository;
+	@Autowired
+	private ComandaProdutoRepository comandaProdutoRepository;
 	@Autowired
 	private ComandaService service;
 
@@ -35,12 +39,30 @@ public class ComandaConntroller {
 		return ResponseEntity.status(HttpStatus.OK).body(comandaList);
 	}
 	
+	@PostMapping("/fechamento")
+	public ResponseEntity<Float> getBalanco(@RequestBody Comanda data ){
+		Float valor = comandaRepository.getListComanda(data.getId());
+	
+		return ResponseEntity.status(HttpStatus.OK).body(valor);
+	}
+	
+	@PostMapping("/mes")
+	public ResponseEntity<Float> getBalancoMes(@RequestBody DatasDTO datas){
+		Float valor = comandaRepository.getLucroMes(datas.getInicio(),datas.getFim());
+	
+		return ResponseEntity.status(HttpStatus.OK).body(valor);
+	}
+	
     @PutMapping("/insert")
-    public void insertComanda(@RequestBody Comanda data){
+    public void insertComanda(@RequestBody Comanda data){  	
+    	comandaRepository.save(data); 
     	
-    	data = service.venda(data);
+    	ComandaProduto comandaProduto = new ComandaProduto();
     	
-    	comandaRepository.save(data);        
+    	comandaProduto.setCliente(data.getCliente());
+    	
+    	comandaProdutoRepository.save(comandaProduto);
+    	
     }
     
     @PutMapping("/update")
@@ -48,6 +70,16 @@ public class ComandaConntroller {
     	comandaRepository.save(data);        
     }
     
+    @PutMapping("/venda")
+    public void venda(@RequestBody ComandaProduto comandaProduto){
+
+//    	Optional<Comanda> comanda = comandaRepository.findById(comandaProduto.getId());
+    	List<Long> ids = null;
+    	ids.add(comandaProduto.getId());
+    	
+    	List<Comanda> comanda = comandaRepository.findAllById(ids);
+    }
+    	
 	@PutMapping(value = "/add/{idComanda}/{idProduto}")
 	public void venda(@PathVariable Long idComanda ,@PathVariable Long idProduto) {	
 		Optional<Comanda> comandaOld = comandaRepository.findById(idComanda);				
