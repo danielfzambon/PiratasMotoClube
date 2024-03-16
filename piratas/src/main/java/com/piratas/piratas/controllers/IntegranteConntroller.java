@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.piratas.piratas.entities.Comanda;
 import com.piratas.piratas.entities.Integrante;
-import com.piratas.piratas.entities.Produto;
-import com.piratas.piratas.repositories.ComandaRepository;
 import com.piratas.piratas.repositories.IntegrandeRepository;
-import com.piratas.piratas.repositories.ProdutoRepository;
 
 @RestController
 @RequestMapping(value = "/integrante")
@@ -31,9 +27,9 @@ public class IntegranteConntroller {
 	@GetMapping("/all")
 	public ResponseEntity<List<Integrante>> getAllProducts(){
 		List<Integrante> comandaList = repository.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(comandaList);
+		return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
 	}
-	
+		
 	@GetMapping(value = "/{id}")
 	public Optional<Integrante>  findById(@PathVariable Long id) {	
 		Optional<Integrante> product = repository.findById(id);	
@@ -55,7 +51,5 @@ public class IntegranteConntroller {
 		repository.deleteById(id);	
 	}
     
-
-	
 
 }

@@ -20,6 +20,7 @@ public class ComandaProduto {
 	private String cliente;
 	private Long idComanda;
 	private Long Idproduto;
+	
 	public Long getId() {
 		return id;
 	}
@@ -45,9 +46,9 @@ public class ComandaProduto {
 		Idproduto = idproduto;
 	}
 	
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "ComandaProduto [cliente=" + cliente + ", idComanda=" + idComanda + ", Idproduto=" + Idproduto + "]";
+	}
 	
 }

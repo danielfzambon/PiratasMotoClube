@@ -46,9 +46,9 @@ public class ProdutoConntroller {
     }
 	
     @PostMapping("/update")
-    public ResponseEntity registerProduct(@RequestBody Produto data){   	
+    public void registerProduct(@RequestBody Produto data){   	
     	productRepository.save(data);
-        return ResponseEntity.ok().build();
+        
     }
 	
 	@PutMapping(value = "/delete/{id}")

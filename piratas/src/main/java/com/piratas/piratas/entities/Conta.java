@@ -11,17 +11,17 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Table(name = "comanda")
+@Table(name = "conta")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Comanda {
+public class Conta {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String cliente;
+	private String conta;
 	private Float valor;
 	private boolean pago;
 	private LocalDate data;
@@ -32,11 +32,11 @@ public class Comanda {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getCliente() {
-		return cliente;
+	public String getConta() {
+		return conta;
 	}
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
+	public void setConta(String conta) {
+		this.conta = conta;
 	}
 	public Float getValor() {
 		return valor;
@@ -56,10 +56,5 @@ public class Comanda {
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
-	
-	
-
-	
-	
 	
 }
