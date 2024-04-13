@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.piratas.piratas.dto.BalancoDTO;
 import com.piratas.piratas.dto.DatasDTO;
 import com.piratas.piratas.entities.Conta;
+import com.piratas.piratas.repositories.ComandaRepository;
 import com.piratas.piratas.repositories.ContaRepository;
 
 @RestController
@@ -22,7 +23,9 @@ import com.piratas.piratas.repositories.ContaRepository;
 public class ContaController {
 	
 	@Autowired
-	private ContaRepository contaRepository;
+	private ComandaRepository comandaRepository;
+    @Autowired
+    private ContaRepository contaRepository;
 
 
 	@GetMapping("/all")
@@ -62,6 +65,36 @@ public class ContaController {
     	
     	balancoDTO.setValor(contaRepository.getContaMes(data.getInicio(), data.getFim()));
 
+    	return balancoDTO;
+    			
+    }
+    
+    @GetMapping("/liquido")
+    private BalancoDTO buscaValorLiquido(@RequestBody DatasDTO data) {
+    	BalancoDTO balancoDTO = new BalancoDTO();
+    	balancoDTO.setInicio(data.getInicio());
+    	balancoDTO.setFim(data.getFim());   
+    	
+    	Float entrada = comandaRepository.getLucroMes(data.getInicio(), data.getFim());
+    	Float saida = contaRepository.getContaMes(data.getInicio(), data.getFim());
+
+    	balancoDTO.setValor(entrada - saida);
+
+    	return balancoDTO;
+    			
+    }
+    
+    @GetMapping("/liquidoMes")
+    private BalancoDTO totalLiquido() {
+    	BalancoDTO balancoDTO = new BalancoDTO();	
+    	balancoDTO.setInicio(LocalDate.now());
+    	balancoDTO.setFim(LocalDate.now().minusDays(30));
+    	    	
+    	Float entrada = comandaRepository.getLucroMes(LocalDate.now(), LocalDate.now().minusDays(30));
+    	Float saida = contaRepository.getContaMes(LocalDate.now(), LocalDate.now().minusDays(30));   	
+
+    	balancoDTO.setValor(entrada - saida);
+ 	
     	return balancoDTO;
     			
     }

@@ -74,20 +74,20 @@ public class ComandaConntroller {
     	return balancoDTO;
     }
  
-    @GetMapping("/liquidoMes")
-    private BalancoDTO totalLiquido() {
-    	BalancoDTO balancoDTO = new BalancoDTO();	
-    	balancoDTO.setInicio(LocalDate.now());
-    	balancoDTO.setFim(LocalDate.now().minusDays(30));
-    	    	
-    	Float entrada = comandaRepository.getLucroMes(LocalDate.now(), LocalDate.now().minusDays(30));
-    	Float saida = contaRepository.getContaMes(LocalDate.now(), LocalDate.now().minusDays(30));   	
-
-    	balancoDTO.setValor(entrada - saida);
- 	
-    	return balancoDTO;
-    			
-    }
+//    @GetMapping("/liquidoMes")
+//    private BalancoDTO totalLiquido() {
+//    	BalancoDTO balancoDTO = new BalancoDTO();	
+//    	balancoDTO.setInicio(LocalDate.now());
+//    	balancoDTO.setFim(LocalDate.now().minusDays(30));
+//    	    	
+//    	Float entrada = comandaRepository.getLucroMes(LocalDate.now(), LocalDate.now().minusDays(30));
+//    	Float saida = contaRepository.getContaMes(LocalDate.now(), LocalDate.now().minusDays(30));   	
+//
+//    	balancoDTO.setValor(entrada - saida);
+// 	
+//    	return balancoDTO;
+//    			
+//    }
     
     @GetMapping("/liquido")
     private BalancoDTO buscaValorLiquido(@RequestBody DatasDTO data) {
@@ -97,7 +97,7 @@ public class ComandaConntroller {
     	
     	Float entrada = comandaRepository.getLucroMes(data.getInicio(), data.getFim());
     	Float saida = contaRepository.getContaMes(data.getInicio(), data.getFim());
-
+    	
     	balancoDTO.setValor(entrada - saida);
 
     	return balancoDTO;

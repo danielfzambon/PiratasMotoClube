@@ -1,8 +1,6 @@
 package com.piratas.piratas.services;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +59,7 @@ public class ComandaService {
 		
 		Float valor = comanda.get().getValor();
 		
-		comanda.get().setValor(valor = valor + produto.get().getValor());
+		comanda.get().setValor(valor = valor + produto.get().getValorVenda());
 		
 		comandaProdutoRepository.save(comandaProduto);
 		comandaRepository.save(comanda.get());

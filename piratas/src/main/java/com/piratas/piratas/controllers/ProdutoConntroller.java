@@ -28,7 +28,6 @@ public class ProdutoConntroller {
 	@GetMapping("/all")
 	public ResponseEntity<List<Produto>> getAllProducts(){
 		List<Produto> productsList = productRepository.findAll();
-		System.out.println(productsList.toString());
 		productsList.toString();
 		return ResponseEntity.status(HttpStatus.OK).body(productsList);
 	}

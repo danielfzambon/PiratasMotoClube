@@ -22,6 +22,14 @@ public interface ComandaRepository  extends JpaRepository<Comanda, Long>{
 	
 	@Query(" select SUM(valor) FROM Comanda WHERE data <= ?1 AND data >= ?2 ")
 	public Float getLucroMes(LocalDate inicio, LocalDate fim);
+	
+	@Query(" SELECT  p.valorVenda -  p.valorCompra   FROM Produto p JOIN ComandaProduto cp ON cp.Idproduto = p.id ")
+	public Float getLucroData(LocalDate inicio, LocalDate fim);
+	
 
+//	
+//	@Query(" msg * ")
+//	public Float getLucroData(LocalDate inicio, LocalDate fim);
+//	
 
 }

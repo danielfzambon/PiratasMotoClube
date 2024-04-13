@@ -50,6 +50,6 @@ public class IntegranteConntroller {
 	public void  deleteById(@PathVariable Long id) {	
 		repository.deleteById(id);	
 	}
-    
+	
 
 }
